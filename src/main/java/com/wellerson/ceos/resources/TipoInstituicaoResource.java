@@ -1,28 +1,32 @@
 package com.wellerson.ceos.resources;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 import com.wellerson.ceos.domain.TipoInstituicao;
+import com.wellerson.ceos.services.TipoInstituicaoService;
 
 @RestController
 @RequestMapping(value="/tiposinstituicao")
 public class TipoInstituicaoResource{
   
-  @RequestMapping(method=RequestMethod.GET)
-  public List<TipoInstituicao> listar(){
+  @Autowired
+  private TipoInstituicaoService service;
+  
+  @RequestMapping(value="/{id}", method=RequestMethod.GET)
+  public ResponseEntity<?> find(@PathVariable Integer id){
     
-    TipoInstituicao tipoInst1 = new TipoInstituicao(1,"Centro Universitário",1);
-    TipoInstituicao tipoInst2 = new TipoInstituicao(2,"Universidade",1);
+    TipoInstituicao obj = service.buscar(id);
     
-    List<TipoInstituicao> lista = new ArrayList<>();
-    lista.add(tipoInst1);
-    lista.add(tipoInst2);
-    
-    return lista;
+    return ResponseEntity.ok().body(obj);
    
   }
 }
