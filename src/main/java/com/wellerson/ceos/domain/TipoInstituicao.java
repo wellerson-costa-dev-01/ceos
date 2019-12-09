@@ -1,21 +1,27 @@
 package com.wellerson.ceos.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.OneToMany;
 
 @Entity
 public class TipoInstituicao implements Serializable{
   private static final long serialVersionUID = 1L;
+  
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Integer id;
   private String nome;
   private Integer ativo;
+  
+  @OneToMany(mappedBy="tipoInstituicao")
+  private List<Instituicao> instituicoes = new ArrayList<>();
   
   public TipoInstituicao(){
     
@@ -48,6 +54,15 @@ public class TipoInstituicao implements Serializable{
   public void setAtivo(Integer ativo){
     this.ativo = ativo;
   }
+  
+  public List<Instituicao> getInstituicoes(){
+    return instituicoes;
+  }
+  
+  public void setInstituicoes(List<Instituicao> instituicoes){
+    this.instituicoes = instituicoes;
+  }
+  
   
   @Override
   public int hashCode(){
