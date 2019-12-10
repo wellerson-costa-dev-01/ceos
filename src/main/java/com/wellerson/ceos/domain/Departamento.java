@@ -1,9 +1,9 @@
 package com.wellerson.ceos.domain;
 
+import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,39 +18,38 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
 @Entity
-public class Instituicao implements Serializable{
+public class Departamento implements Serializable{
   
   private static final long serialVersionUID = 1L;
   
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Integer id;
-  private String nomeFantasia;
-  private String razaoSocial;
-  private String cnpj;
+  private String departamento;
+  private String centroCusto;
   private Integer ativo;
-    
-  @JsonBackReference
+  
+  @JsonBackReference  
   @ManyToOne
-  @JoinColumn(name="tipoinstituicao_id")
-  private TipoInstituicao tipoInstituicao;
+  @JoinColumn(name="instituicao_id")
+  private Instituicao instituicao;
   
   @JsonManagedReference
-  @OneToMany(mappedBy="instituicao")
-  private List<Departamento> departamentos = new ArrayList<>();
+  @OneToMany(mappedBy="departamento")
+  private List<Funcionario> funcionarios = new ArrayList<>();
   
-  public Instituicao(){
+  
+  public Departamento(){
     
   }
   
-  public Instituicao(Integer id, String nomeFantasia, String razaoSocial, String cnpj, Integer ativo, TipoInstituicao tipoInstituicao){
+  public Departamento(Integer id, String departamento, String centroCusto, Integer ativo, Instituicao instituicao){
     super();
     this.id = id;
-    this.nomeFantasia = nomeFantasia;
-    this.razaoSocial = razaoSocial;
-    this.cnpj = cnpj;
+    this.departamento = departamento;
+    this.centroCusto = centroCusto;
     this.ativo = ativo;
-    this.tipoInstituicao = tipoInstituicao;
+    this.instituicao = instituicao;
   }
   
   public Integer getId(){
@@ -60,27 +59,21 @@ public class Instituicao implements Serializable{
     this.id = id;
   }
   
-  public String getNomeFantasia(){
-    return nomeFantasia;
+  public String getDepartamento(){
+    return departamento;
   }
-  public void setNomeFantasia(String nomeFantasia){
-    this.nomeFantasia = nomeFantasia;
-  }
-  
-  public String getRazaoSocial(){
-    return razaoSocial;
-  }
-  public void setRazaoSocial(String razaoSocial){
-    this.razaoSocial = razaoSocial;
+  public void setDepartamento(String departamento){
+    this.departamento = departamento;
   }
   
-  public String getCnpj(){
-    return cnpj;
+  public String getCentroCusto(){
+    return centroCusto;
   }
-  public void setCnpj(String cnpj){
-    this.cnpj = cnpj;
+  public void setCentroCusto(String centroCusto){
+    this.centroCusto = centroCusto;
   }
   
+   
   public Integer getAtivo(){
     return ativo;
   }
@@ -88,22 +81,22 @@ public class Instituicao implements Serializable{
     this.ativo = ativo;
   }
   
-  public void setTipoInstituicao(TipoInstituicao tipoInstituicao){
-    this.tipoInstituicao = tipoInstituicao;
+  public void setInstituicao(Instituicao instituicao){
+    this.instituicao = instituicao;
   }
   
-  public TipoInstituicao getTipoInstituicao(){
-    return this.tipoInstituicao;
+  public Instituicao getInstituicao(){
+    return this.instituicao;
   }
   
-  public List<Departamento> getDepartamentos(){
-    return departamentos;
+  
+  public List<Funcionario> getFuncionarios(){
+    return funcionarios;
   }
   
-  public void setDepartamentos(List<Departamento> departamentos){
-    this.departamentos = departamentos;
+  public void setFuncionarios(List<Funcionario> funcionarios){
+    this.funcionarios = funcionarios;
   }
-  
   
   @Override
   public int hashCode(){
@@ -121,7 +114,7 @@ public class Instituicao implements Serializable{
       return false;
     if(getClass() != obj.getClass())
       return false;
-   Instituicao other = (Instituicao) obj;
+   Departamento other = (Departamento) obj;
     if (id == null){
       if(other.id != null)
         return false;

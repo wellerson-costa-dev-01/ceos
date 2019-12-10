@@ -1,40 +1,48 @@
 package com.wellerson.ceos.domain;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
-public class TipoInstituicao implements Serializable{
+public class Funcionario implements Serializable{
+  
   private static final long serialVersionUID = 1L;
   
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Integer id;
   private String nome;
+  private String cpf;
+  private String matricula;
   private Integer ativo;
   
-  @JsonManagedReference
-  @OneToMany(mappedBy="tipoInstituicao")
-  private List<Instituicao> instituicoes = new ArrayList<>();
+  @JsonBackReference  
+  @ManyToOne
+  @JoinColumn(name="departamento_id")
+  private Departamento departamento;
   
-  public TipoInstituicao(){
+  
+  public Funcionario(){
     
   }
   
-  public TipoInstituicao(Integer id, String nome, Integer ativo){
+  public Funcionario(Integer id, String nome, String cpf, String matricula, Integer ativo, Departamento departamento){
     super();
     this.id = id;
     this.nome = nome;
+    this.cpf = cpf;
+    this.matricula = matricula;
     this.ativo = ativo;
+    this.departamento = departamento;
   }
   
   public Integer getId(){
@@ -51,6 +59,20 @@ public class TipoInstituicao implements Serializable{
     this.nome = nome;
   }
   
+  public String getCpf(){
+    return cpf;
+  }
+  public void setCpf(String cpf){
+    this.cpf = cpf;
+  }
+  
+  public String getMatricula(){
+    return matricula;
+  }
+  public void setMatricula(String matricula){
+    this.matricula = matricula;
+  }
+   
   public Integer getAtivo(){
     return ativo;
   }
@@ -58,14 +80,13 @@ public class TipoInstituicao implements Serializable{
     this.ativo = ativo;
   }
   
-  public List<Instituicao> getInstituicoes(){
-    return instituicoes;
+  public void setDepartamento(Departamento departamento){
+    this.departamento = departamento;
   }
   
-  public void setInstituicoes(List<Instituicao> instituicoes){
-    this.instituicoes = instituicoes;
+  public Departamento getDepartamento(){
+    return this.departamento;
   }
-  
   
   @Override
   public int hashCode(){
@@ -83,7 +104,7 @@ public class TipoInstituicao implements Serializable{
       return false;
     if(getClass() != obj.getClass())
       return false;
-    TipoInstituicao other = (TipoInstituicao) obj;
+   Funcionario other = (Funcionario) obj;
     if (id == null){
       if(other.id != null)
         return false;
