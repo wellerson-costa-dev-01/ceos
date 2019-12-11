@@ -28,4 +28,15 @@ public class TipoInstituicaoService{
     return repo.save(obj);
   }
   
+  public TipoInstituicao update(TipoInstituicao obj){
+    buscar(obj.getId());
+    return repo.save(obj);
+  }
+  
+  public void delete(Integer id){
+    buscar(id);
+		repo.deleteById(id);
+	}
+  
+  
 }
